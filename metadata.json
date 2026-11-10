@@ -1,0 +1,6 @@
+{
+  "name": "Gasra (قصرة)",
+  "description": "Plateforme sociale algérienne — de ton quartier, à ton pays. Transforme le temps passé sur son téléphone en revenu local avec les Bons du quartier et la réputation par wilaya.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

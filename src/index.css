@@ -1,0 +1,849 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gasra-bg: var(--gasra-bg);
+  --color-gasra-surface: var(--gasra-surface);
+  --color-gasra-surface-subtle: var(--gasra-surface-subtle);
+  --color-gasra-surface-border: var(--gasra-surface-border);
+  --color-gasra-petrole: var(--gasra-petrole);
+  --color-gasra-cyan: var(--gasra-accent);
+  --color-gasra-cyan-dark: var(--gasra-accent-dim);
+  --color-gasra-cyan-soft: color-mix(in srgb, var(--gasra-accent) 12%, transparent);
+  --color-gasra-accent: var(--gasra-accent);
+  --color-gasra-on-accent: var(--gasra-on-accent);
+  --color-gasra-text: var(--gasra-text);
+  --color-gasra-text-secondary: var(--gasra-text-secondary);
+  --color-gasra-text-muted: var(--gasra-text-muted);
+}
+
+:root {
+  /* Thème clair "Nacre" : base gris perle neutre, encre pour le texte,
+     turquoise #2fddcb réservé aux actions (texte foncé dessus pour la lisibilité) */
+  --gasra-bg: transparent;
+  --gasra-surface: rgba(255, 255, 255, 0.80);
+  --gasra-surface-subtle: rgba(244, 245, 249, 0.78);
+  --gasra-surface-border: rgba(20, 22, 43, 0.10);
+  --gasra-petrole: #14162B;
+  --gasra-text: #14162B;
+  --gasra-text-secondary: #4A4D63;
+  --gasra-text-muted: #7C7F94;
+  /* Icônes, liens, montants : turquoise foncé lisible sur fond clair */
+  --gasra-accent: #0F8A7E;
+  --gasra-accent-dim: #2fddcb;
+  --gasra-on-accent: #04212B;
+  --gasra-fill-white: #FFFFFF;
+  --gasra-cyan: var(--gasra-accent);
+  --gasra-btn-primary-bg: #2fddcb;
+  --gasra-btn-primary-text: #04212B;
+  --gasra-input-bg: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"], .dark, :root.dark {
+  /* Dark theme: deep translucent surfaces highlighting the PlayStation mirage wave */
+  --gasra-bg: transparent;
+  --gasra-surface: rgba(10, 22, 52, 0.70);
+  --gasra-surface-subtle: rgba(16, 30, 66, 0.58);
+  --gasra-surface-border: color-mix(in srgb, var(--gasra-accent) 28%, transparent);
+  --gasra-petrole: #030D11;
+  --gasra-text: #EEF8F7;
+  --gasra-text-secondary: #97B6BF;
+  --gasra-text-muted: #64848E;
+  /* Accent Gasra d'origine */
+  --gasra-accent: #2fddcb;
+  --gasra-accent-dim: #1fbcab;
+  /* Texte dans les boutons pleins = noir + mix-blend-mode: screen → il devient "transparent" (on voit le fond) */
+  --gasra-on-accent: #000000;
+  --gasra-fill-white: #FFFFFF;
+  --gasra-cyan: var(--gasra-accent);
+  --gasra-btn-primary-bg: var(--gasra-accent);
+  --gasra-btn-primary-text: var(--gasra-on-accent);
+  --gasra-input-bg: rgba(9, 23, 29, 0.85);
+}
+
+html, body {
+  font-family: 'Readex Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: transparent;
+  color: var(--gasra-text);
+  min-height: 100vh;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: transparent;
+}
+
+/* Base Gasra Utility Classes — accent Blanc d'Alger */
+.bg-gasra-bg {
+  background-color: var(--gasra-bg) !important;
+}
+
+.bg-gasra-surface {
+  background-color: var(--gasra-surface) !important;
+}
+
+.bg-gasra-surface-subtle {
+  background-color: var(--gasra-surface-subtle) !important;
+}
+
+.border-gasra-surface-border {
+  border-color: var(--gasra-surface-border) !important;
+}
+
+.text-gasra-text {
+  color: var(--gasra-text) !important;
+}
+
+.text-gasra-text-secondary {
+  color: var(--gasra-text-secondary) !important;
+}
+
+.text-gasra-text-muted {
+  color: var(--gasra-text-muted) !important;
+}
+
+.text-gasra-cyan {
+  color: var(--gasra-accent) !important;
+}
+
+.bg-gasra-cyan {
+  background-color: var(--gasra-accent) !important;
+  color: var(--gasra-on-accent) !important;
+}
+
+.border-gasra-cyan {
+  border-color: var(--gasra-accent) !important;
+}
+
+/* Primary buttons exclusively powered by var(--gasra-accent) with cycling animated gradient */
+@keyframes gasraGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.btn-gasra-primary, .btn-gasra-animated {
+  background: linear-gradient(135deg, var(--gasra-accent) 0%, var(--gasra-accent-dim) 25%, var(--gasra-accent) 50%, var(--gasra-accent-dim) 75%, var(--gasra-accent) 100%) !important;
+  background-size: 250% 250% !important;
+  animation: gasraGradientShift 5s ease infinite !important;
+  color: var(--gasra-on-accent) !important;
+  font-weight: 700 !important;
+  border: 1px solid color-mix(in srgb, var(--gasra-accent) 60%, transparent) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-gasra-primary:hover, .btn-gasra-animated:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--gasra-accent) 45%, transparent);
+}
+
+/* Stories cycling gradient ring */
+@keyframes storyGradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.story-ring-animated {
+  background: var(--gasra-border-gradient);
+  background-size: 250% 250%;
+  animation: storyGradientFlow 4s ease infinite;
+}
+
+/* Icon cycling gradient / breathing glow */
+@keyframes iconColorBreathe {
+  0%, 100% {
+    color: var(--gasra-accent);
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  50% {
+    color: var(--gasra-accent-dim);
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gasra-accent) 50%, transparent));
+  }
+}
+
+.icon-animated-gradient, .icon-gasra-animated {
+  animation: iconColorBreathe 3.5s ease-in-out infinite;
+}
+
+/* Logo flow animation from provided asset */
+.logo-flow {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: url(/assets/logo.png);
+  mask-image: url(/assets/logo.png);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-image: linear-gradient(90deg, #2DB34A 0%, #1E5BD8 25%, #2DB34A 50%, #1E5BD8 75%, #2DB34A 100%);
+  background-size: 200% 100%;
+  mix-blend-mode: color;
+  animation-name: logoFlow;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes logoFlow {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-flow {
+    animation: none;
+  }
+  .btn-gasra-primary, .story-ring-animated, .icon-animated-gradient {
+    animation: none !important;
+  }
+}
+
+.btn-gasra-secondary {
+  background-color: var(--gasra-surface-subtle) !important;
+  color: var(--gasra-text) !important;
+  border: 1px solid var(--gasra-surface-border) !important;
+  transition: all 0.2s ease;
+}
+.btn-gasra-secondary:hover {
+  border-color: var(--gasra-accent) !important;
+  color: var(--gasra-accent) !important;
+}
+
+/* Glassmorphism panel */
+.gasra-card-glass {
+  background: var(--gasra-surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--gasra-surface-border);
+}
+
+/* Hatched wireframe placeholder pattern */
+.bg-hatched {
+  background-color: var(--gasra-surface-subtle);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    color-mix(in srgb, var(--gasra-accent) 5%, transparent) 8px,
+    color-mix(in srgb, var(--gasra-accent) 5%, transparent) 16px
+  );
+}
+
+/* Safe areas */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--gasra-accent) 30%, transparent);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gasra-accent);
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* =====================================================================
+   CONTOURS EN DÉGRADÉ ANIMÉ — Cyan #0DCCF2 → Violet #5E47D1 → Rose #DB57C5
+   Appliqué à tous les éléments encadrés (cartes, menu, publications,
+   puces, boutons, champs, avatars) + anneaux des stories.
+   ===================================================================== */
+@property --gasra-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@keyframes gasraBorderSpin {
+  to { --gasra-angle: 360deg; }
+}
+
+:root {
+  --gasra-grad-cyan: #0DCCF2;
+  --gasra-grad-violet: #5E47D1;
+  --gasra-grad-rose: #DB57C5;
+  --gasra-border-gradient: conic-gradient(
+    from var(--gasra-angle),
+    var(--gasra-grad-cyan),
+    var(--gasra-grad-violet),
+    var(--gasra-grad-rose),
+    var(--gasra-grad-violet),
+    var(--gasra-grad-cyan)
+  );
+  --gasra-field-fill: rgb(250, 253, 253);
+  /* Une seule animation sur la racine : tous les contours tournent en synchro */
+  animation: gasraBorderSpin 6s linear infinite;
+}
+
+[data-theme="dark"], .dark, :root.dark {
+  --gasra-field-fill: rgb(10, 24, 30);
+}
+
+/* 1) Contour en dégradé animé : réservé aux GRANDES surfaces (cartes du fil, colonnes,
+      tiroirs, fenêtres, dock) — tout le reste garde un filet fin et neutre pour alléger */
+.gasra-card-glass:is(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl, .dock-shell):not(.no-gradient-border) {
+  --gb-w: 1px;
+  border-color: transparent !important;
+}
+.gasra-card-glass:is(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl, .dock-shell):not(.no-gradient-border, .absolute, .fixed, .sticky) {
+  position: relative;
+}
+.gasra-card-glass:is(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl, .dock-shell):not(.no-gradient-border)::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--gb-w));
+  border-radius: inherit;
+  padding: var(--gb-w);
+  background: var(--gasra-border-gradient);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+}
+.gasra-card-glass:is(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl):is(.overflow-hidden, .overflow-auto, .overflow-x-auto, .overflow-y-auto):not(.no-gradient-border)::after {
+  inset: 0;
+}
+
+/* 2) Filets secondaires : neutres et très fins (plus de turquoise partout) */
+.dark { --gasra-hairline: rgba(255, 255, 255, 0.08); }
+:root:not(.dark) { --gasra-hairline: rgba(20, 22, 43, 0.09); }
+.border-gasra-surface-border { border-color: var(--gasra-hairline) !important; }
+:is(input, textarea, select)[class~="border"] { border-color: var(--gasra-hairline) !important; }
+
+/* 3) Les petites pastilles en verre (filtres) n'ont plus d'effet verre lourd */
+.gasra-card-glass:not(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl, .dock-shell, .rounded-full) {
+  border-color: var(--gasra-hairline) !important;
+  box-shadow: none !important;
+}
+
+/* 4) Anneaux des stories : entièrement en dégradé animé */
+.story-ring-animated {
+  background: var(--gasra-border-gradient) !important;
+  animation: none;
+}
+.story-ring-glow {
+  box-shadow: 0 0 14px rgba(94, 71, 209, 0.45), 0 0 6px rgba(13, 204, 242, 0.35);
+}
+
+/* Barre du haut transparente */
+.gasra-topbar {
+  background: transparent !important;
+  border: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Tiroir Missions mobile */
+.gasra-missions-tab {
+  background: var(--gasra-border-gradient);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { animation: none; }
+}
+
+/* Icônes (lucide) en couleur d'accent partout — sauf posées sur un fond d'accent plein */
+svg.lucide {
+  color: var(--gasra-accent) !important;
+}
+:is(.btn-gasra-primary, .btn-gasra-animated, .bg-gasra-cyan, [class~="bg-gasra-accent"]) svg.lucide,
+[class~="hover:bg-gasra-accent"]:hover svg.lucide {
+  color: var(--gasra-on-accent) !important;
+}
+
+:root:not(.dark) {
+  --gasra-field-fill: #FFFFFF;
+}
+
+/* ===== Mode sombre : texte des boutons pleins "évidé" (on voit le fond à travers) ===== */
+.dark :is(.btn-gasra-primary, .btn-gasra-animated, .bg-gasra-cyan, [class~="bg-gasra-accent"]),
+.dark [class~="hover:bg-gasra-accent"]:hover {
+  mix-blend-mode: screen;
+  color: #000000 !important;
+}
+.dark :is(.btn-gasra-primary, .btn-gasra-animated, .bg-gasra-cyan, [class~="bg-gasra-accent"]) *,
+.dark [class~="hover:bg-gasra-accent"]:hover * {
+  color: #000000 !important;
+}
+.dark :is(.btn-gasra-primary, .btn-gasra-animated, .bg-gasra-cyan, [class~="bg-gasra-accent"]) svg.lucide,
+.dark [class~="hover:bg-gasra-accent"]:hover svg.lucide {
+  color: #000000 !important;
+}
+
+/* ===== Mode clair "Nacre" : boutons turquoise plein, texte encre foncé ===== */
+:root:not(.dark) [class~="bg-gasra-accent"],
+:root:not(.dark) [class~="hover:bg-gasra-accent"]:hover,
+:root:not(.dark) .btn-gasra-primary,
+:root:not(.dark) .btn-gasra-animated {
+  background: #2fddcb !important;
+  color: #04212B !important;
+  mix-blend-mode: normal;
+}
+:root:not(.dark) :is([class~="bg-gasra-accent"], .btn-gasra-primary, .btn-gasra-animated) svg.lucide,
+:root:not(.dark) [class~="hover:bg-gasra-accent"]:hover svg.lucide {
+  color: #04212B !important;
+}
+:root:not(.dark) .btn-gasra-primary:hover { background: #26cfbd !important; }
+
+/* Puces / filtres actifs : encre (le turquoise reste pour les actions) */
+:root:not(.dark) .rounded-full[class~="bg-gasra-accent"],
+:root:not(.dark) .gasra-chip-active {
+  background: #14162B !important;
+  color: #FFFFFF !important;
+}
+:root:not(.dark) :is(.rounded-full[class~="bg-gasra-accent"], .gasra-chip-active) svg.lucide { color: #FFFFFF !important; }
+
+/* Verre nacré : blanc lumineux, ombre neutre très légère */
+:root:not(.dark) .gasra-card-glass {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%),
+    var(--gasra-surface);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 8px 30px rgba(20, 22, 43, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+/* Contours en dégradé plus doux en clair */
+:root:not(.dark) .gasra-card-glass:is(.rounded-3xl, .rounded-l-3xl, .rounded-r-3xl, .dock-shell)::after { opacity: 0.5; }
+
+/* ===== Interrupteur de thème (soleil / lune) ===== */
+.gasra-theme-toggle.is-light {
+  background: linear-gradient(180deg, #C4F4FC 0%, #9FE7F6 100%);
+  box-shadow: inset 0 2px 5px rgba(8, 80, 110, 0.18), 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.gasra-theme-toggle.is-dark {
+  background: linear-gradient(180deg, #0B1030 0%, #141A44 100%);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(13, 204, 242, 0.25);
+}
+.gasra-theme-toggle.is-light .gasra-theme-knob {
+  left: 4px;
+  background: radial-gradient(circle at 40% 38%, #FFF27A 0%, #FFD52E 55%, #FFC21A 100%);
+  box-shadow: 0 0 0 3px #FFAE2B, 0 2px 8px rgba(255, 150, 0, 0.55);
+}
+.gasra-theme-toggle.is-dark .gasra-theme-knob {
+  left: calc(100% - 26px);
+  border: 2px solid transparent;
+  background:
+    radial-gradient(circle at 40% 40%, #1A1F4D, #0A0D26) padding-box,
+    conic-gradient(from 200deg, #0DCCF2, #5E47D1, #DB57C5, #FC56C1, #0DCCF2) border-box;
+  box-shadow: 0 0 10px rgba(219, 87, 197, 0.55);
+}
+.gasra-theme-knob-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #FF6FD8;
+  box-shadow: 0 0 6px #FF6FD8;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.gasra-theme-toggle.is-dark .gasra-theme-knob-dot { opacity: 1; }
+
+/* ===== ELLAMA (live) ===== */
+.ellama-cta {
+  background: linear-gradient(100deg, #FF3D6E 0%, #DB57C5 45%, #5E47D1 100%);
+  background-size: 200% 200%;
+  animation: gasraGradientShift 4s ease infinite;
+  box-shadow: 0 0 14px rgba(255, 61, 110, 0.45);
+}
+.ellama-wordmark {
+  background: linear-gradient(90deg, #FF3D6E, #DB57C5, #5E47D1, #0DCCF2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ellama-stage {
+  background:
+    radial-gradient(70% 60% at 30% 20%, rgba(219, 87, 197, 0.55), transparent 70%),
+    radial-gradient(60% 50% at 80% 90%, rgba(13, 204, 242, 0.45), transparent 70%),
+    #0B0F2A;
+}
+:is(.ellama-cta, .ellama-stage, .bg-red-500) svg.lucide { color: #FFFFFF !important; filter: none; }
+.ellama-stage svg.lucide.lucide-heart { color: #FF6FD8 !important; }
+
+/* ===== Mirage "peinture à l'huile" ===== */
+/* Même mirage qu'avant, juste diffusé dans le bleu comme de la peinture (bords fondus, un peu moins couvrant) */
+.dark .mirage-canvas {
+  opacity: 0.62;
+  filter: blur(3px) saturate(1.05);
+}
+.mirage-canvas-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+.dark .mirage-canvas-grain { opacity: 0.06; }
+
+/* ===== Menu latéral replié : rail discret ===== */
+.sidebar-rail .rail-item svg.lucide {
+  opacity: 0.32;
+  filter: none;
+  transition: opacity 0.25s ease, transform 0.2s ease;
+}
+.sidebar-rail:hover .rail-item svg.lucide { opacity: 0.85; }
+.sidebar-rail .rail-item:hover svg.lucide { opacity: 1; }
+.sidebar-rail .rail-active svg.lucide { opacity: 0.75; }
+.sidebar-rail .rail-active::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 25%;
+  bottom: 25%;
+  width: 3px;
+  border-radius: 9999px;
+  background: var(--gasra-accent);
+}
+.sidebar-rail .rail-item > span.absolute.rounded-full { opacity: 0.5; transform: scale(0.75); }
+.sidebar-shell-collapsed {
+  background: color-mix(in srgb, var(--gasra-surface) 45%, transparent) !important;
+  box-shadow: none !important;
+}
+.sidebar-shell-collapsed::after { opacity: 0.35; }
+.sidebar-shell-collapsed:hover { background: var(--gasra-surface) !important; }
+.sidebar-shell-collapsed:hover::after { opacity: 1; }
+
+/* ===== Barre du bas "liquide" (téléphone) ===== */
+@property --notch-x {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+.liquid-bar {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  /* Encoche ronde creusée sous la bulle, aux bords adoucis */
+  -webkit-mask: radial-gradient(circle 36px at var(--notch-x) 0px, transparent 33px, #000 35.5px);
+  mask: radial-gradient(circle 36px at var(--notch-x) 0px, transparent 33px, #000 35.5px);
+  transition: --notch-x 0.55s cubic-bezier(0.34, 1.45, 0.5, 1);
+}
+.liquid-bubble {
+  background: var(--gasra-accent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--gasra-accent) 45%, transparent);
+}
+.dark .liquid-bar { background: rgba(9, 18, 40, 0.94); }
+.liquid-bubble svg.lucide { color: var(--gasra-on-accent) !important; }
+.dark .liquid-bubble { mix-blend-mode: screen; }
+.dark .liquid-bubble svg.lucide { color: #000 !important; }
+:root:not(.dark) .liquid-bubble { background: #2fddcb; }
+:root:not(.dark) .liquid-bubble svg.lucide { color: #04212B !important; }
+.liquid-tab svg.lucide { color: var(--gasra-text-secondary) !important; filter: none; }
+
+/* ===== Dock Gasra (ordinateur) ===== */
+.dock-icon {
+  background: color-mix(in srgb, var(--gasra-surface-subtle) 80%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease;
+}
+.dock-icon svg.lucide { color: var(--gasra-text-secondary) !important; filter: none; transition: color 0.2s ease; }
+.dock-icon:hover svg.lucide, .dock-icon.is-active svg.lucide { color: var(--gasra-accent) !important; }
+.dock-icon.is-active {
+  background: color-mix(in srgb, var(--gasra-accent) 16%, var(--gasra-surface));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--gasra-accent) 30%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.dock-drop {
+  background: var(--gasra-accent);
+  box-shadow: 0 0 8px var(--gasra-accent), 0 0 2px var(--gasra-accent);
+}
+.dock-sep { background: color-mix(in srgb, var(--gasra-text-muted) 35%, transparent); }
+.dock-tooltip {
+  background: var(--gasra-surface);
+  color: var(--gasra-text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* =====================================================================
+   ÉPURE — même couleurs, même DA, moins de poids visuel
+   ===================================================================== */
+/* Typographie plus légère : on garde la hiérarchie, on retire l'excès de gras */
+.font-black { font-weight: 700 !important; }
+.font-extrabold { font-weight: 700 !important; }
+.font-bold { font-weight: 600 !important; }
+.font-semibold { font-weight: 500 !important; }
+h1, h2, h3 { letter-spacing: -0.015em; }
+
+/* Ombres : seules les grandes surfaces en gardent une, très douce */
+.gasra-card-glass.rounded-3xl { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.14) !important; }
+.gasra-card-glass .shadow-xs, .gasra-card-glass .shadow-sm, .gasra-card-glass .shadow-md,
+.gasra-card-glass .shadow-lg, .gasra-card-glass .shadow-xl, .gasra-card-glass .shadow-2xl {
+  box-shadow: none !important;
+}
+.btn-gasra-primary:hover, .btn-gasra-animated:hover { box-shadow: none !important; }
+
+/* Boutons principaux : plus de reflet qui bouge, aplat net */
+.btn-gasra-primary, .btn-gasra-animated { animation: none !important; background-size: 100% 100% !important; }
+.btn-gasra-primary, .btn-gasra-animated { border-color: transparent !important; }
+
+/* Animations décoratives calmées */
+.icon-animated-gradient, .icon-gasra-animated { animation: none !important; }
+.story-ring-glow { box-shadow: none; }
+
+/* Sous-filtres du fil : simples onglets texte, soulignés quand actifs */
+.subfilter-tab svg.lucide { color: currentColor !important; opacity: 0.8; }
+.subfilter-tab.is-active svg.lucide { color: var(--gasra-accent) !important; opacity: 1; }
+.subfilter-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gasra-accent);
+}
+
+/* ===== Explorer : Radar de la Houma ===== */
+.radar {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--gasra-accent) 10%, transparent) 0%, transparent 62%),
+    color-mix(in srgb, var(--gasra-surface-subtle) 70%, transparent);
+  box-shadow: inset 0 0 0 1px var(--gasra-hairline), inset 0 0 60px color-mix(in srgb, var(--gasra-accent) 8%, transparent);
+  overflow: hidden;
+}
+.radar-ring { border: 1px dashed color-mix(in srgb, var(--gasra-accent) 22%, transparent); }
+.radar-ring-label { color: var(--gasra-text-muted); background: var(--gasra-surface); }
+.radar-axis { background: color-mix(in srgb, var(--gasra-accent) 12%, transparent); }
+.radar-sweep {
+  background: conic-gradient(from 0deg, color-mix(in srgb, var(--gasra-accent) 38%, transparent) 0deg, transparent 70deg, transparent 360deg);
+  animation: radarSpin linear infinite;
+  -webkit-mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+  mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+}
+@keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.radar-pulse {
+  left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  border: 1.5px solid var(--gasra-accent);
+  animation: radarPulse 3s ease-out infinite;
+  opacity: 0;
+}
+@keyframes radarPulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(18); opacity: 0; }
+}
+.radar-me {
+  background: var(--gasra-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gasra-accent) 25%, transparent), 0 0 18px var(--gasra-accent);
+}
+.radar-link { stroke: var(--gasra-accent); stroke-width: 0.5; stroke-dasharray: 1.2 1.2; }
+.radar-blip-dot {
+  background: var(--gasra-surface);
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--gasra-accent) 45%, transparent), 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: blipFlash 6s linear infinite;
+  animation-delay: var(--blip-delay, 0s);
+}
+/* le lieu "s'allume" quand le balayage passe dessus */
+@keyframes blipFlash {
+  0% { box-shadow: 0 0 0 2px var(--gasra-accent), 0 0 18px var(--gasra-accent); }
+  12% { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--gasra-accent) 45%, transparent), 0 4px 12px rgba(0, 0, 0, 0.25); }
+  100% { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--gasra-accent) 45%, transparent), 0 4px 12px rgba(0, 0, 0, 0.25); }
+}
+.radar-blip.is-active .radar-blip-dot {
+  animation: none;
+  background: var(--gasra-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gasra-accent) 30%, transparent), 0 0 20px var(--gasra-accent);
+}
+.radar-blip-deal { background: #FF5C7A; color: #fff; }
+.radar-blip { z-index: 2; }
+.radar-blip.is-active { z-index: 3; }
+
+/* Plan classique */
+.dark .plan-map .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.85) saturate(0.6); }
+.gasra-plan-pin-dot {
+  width: 34px; height: 34px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+  background: var(--gasra-surface);
+  box-shadow: 0 0 0 2px var(--gasra-accent), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.gasra-plan-pin-dot.is-active { background: var(--gasra-accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--gasra-accent) 35%, transparent), 0 0 16px var(--gasra-accent); }
+
+/* Onglets & liste */
+.explore-tab-pill { background: var(--gasra-surface-subtle); box-shadow: inset 0 0 0 1px var(--gasra-hairline); }
+.dark .explore-tab-pill { background: rgba(0, 0, 0, 0.35); }
+.explore-item:hover { background: var(--gasra-surface-subtle); }
+.explore-item.is-active { border-color: color-mix(in srgb, var(--gasra-accent) 45%, transparent) !important; background: var(--gasra-surface-subtle); }
+
+/* ===== Page Poster ===== */
+.create-tile { transition: background 0.2s ease, border-color 0.2s ease; }
+.create-tile:hover { background: var(--gasra-surface-subtle); border-color: color-mix(in srgb, var(--gasra-accent) 30%, transparent) !important; }
+.create-tile-icon svg.lucide { color: #FFFFFF !important; filter: none; }
+.gains-sim {
+  background: color-mix(in srgb, var(--gasra-accent) 9%, var(--gasra-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gasra-accent) 25%, transparent);
+}
+.gains-range { accent-color: var(--gasra-accent); }
+
+/* ===== Marketplace ===== */
+.market-row { transition: background 0.2s ease, border-color 0.2s ease; }
+.market-row:hover { background: var(--gasra-surface-subtle); border-color: color-mix(in srgb, var(--gasra-accent) 30%, transparent) !important; }
+.compare-best { background: color-mix(in srgb, var(--gasra-accent) 10%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gasra-accent) 30%, transparent); }
+
+/* ===== Amis / Pages / Messages ===== */
+.friend-card, .page-card { transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+.friend-card:hover, .page-card:hover { border-color: color-mix(in srgb, var(--gasra-accent) 30%, transparent) !important; }
+.page-card:hover { transform: translateY(-2px); }
+.page-cover-pattern {
+  background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25) 0 2px, transparent 3px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.18) 0 1.5px, transparent 2.5px);
+  background-size: 28px 28px, 22px 22px;
+  opacity: 0.6;
+}
+.page-logo { box-shadow: 0 0 0 4px var(--gasra-surface), 0 6px 16px rgba(0,0,0,0.25); background: color-mix(in srgb, var(--gasra-surface) 100%, #0a1026); }
+.dark .page-logo { background: #0d1830; box-shadow: 0 0 0 4px #0d1830, 0 6px 16px rgba(0,0,0,0.35); }
+.pages-hero { background: radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--gasra-accent) 14%, transparent), transparent 60%), var(--gasra-surface) !important; }
+.msg-row:hover { background: var(--gasra-surface-subtle); }
+.msg-row.is-active { background: color-mix(in srgb, var(--gasra-accent) 12%, transparent); }
+.msg-avatar { background: color-mix(in srgb, var(--gasra-accent) 18%, var(--gasra-surface)); color: var(--gasra-accent); }
+.msg-mine { background: var(--gasra-accent); color: var(--gasra-on-accent); }
+.dark .msg-mine { background: #2fddcb; color: #04212B; }
+.msg-theirs { background: var(--gasra-surface-subtle); color: var(--gasra-text); }
+
+/* ===== Paiements ===== */
+.wallet-hero { background: linear-gradient(135deg, #2fddcb 0%, #22c9b8 55%, #1fbcab 100%); color: #04212B; box-shadow: 0 18px 40px rgba(47, 221, 203, 0.22); }
+.wallet-hero svg.lucide { color: #04212B !important; filter: none; }
+.wallet-hero-orb { background: radial-gradient(circle, rgba(255,255,255,0.35), transparent 70%); }
+.wallet-hero-btn { background: rgba(255, 255, 255, 0.28); color: #04212B; transition: background 0.2s ease; }
+.wallet-hero-btn:hover { background: rgba(255, 255, 255, 0.42); }
+.wallet-quick { transition: background 0.2s ease, border-color 0.2s ease; }
+.wallet-quick:hover { background: var(--gasra-surface-subtle); border-color: color-mix(in srgb, var(--gasra-accent) 30%, transparent) !important; }
+.tx-in { background: rgba(52, 211, 153, 0.14); }
+.tx-in svg.lucide { color: #34D399 !important; }
+.tx-out { background: var(--gasra-surface-subtle); }
+
+/* ===== Profil ===== */
+.profile-avatar { background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--gasra-accent) 30%, #0d1830), #0a1026); color: var(--gasra-accent); }
+:root:not(.dark) .profile-avatar { background: radial-gradient(circle at 35% 30%, #e9fbf8, #c9f2ec); }
+.influence-bar { background: linear-gradient(90deg, #0DCCF2, #5E47D1, #DB57C5); }
+.journey-step { background: var(--gasra-surface-subtle); color: var(--gasra-text-muted); }
+.journey-step svg.lucide { color: currentColor !important; }
+.journey-step.done { color: var(--gasra-text-secondary); }
+.journey-step.current { background: color-mix(in srgb, var(--gasra-accent) 12%, transparent); color: var(--gasra-text); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gasra-accent) 40%, transparent); }
+.journey-step.current svg.lucide { color: var(--gasra-accent) !important; }
+.profile-action { transition: background 0.2s ease, border-color 0.2s ease; }
+.profile-action:hover { background: var(--gasra-surface-subtle); }
+.profile-logout svg.lucide { color: #F87171 !important; }
+
+/* ===== Détail d'une Page ===== */
+.page-act { color: var(--gasra-text-muted); transition: background 0.2s ease, color 0.2s ease; }
+.page-act svg.lucide { color: currentColor !important; }
+.page-act:hover { background: var(--gasra-surface-subtle); color: var(--gasra-text); }
+.page-act.is-liked { color: #FF5C7A; }
+.page-act.is-liked svg.lucide { fill: #FF5C7A; }
+.page-act.is-saved { color: var(--gasra-accent); }
+.page-act.is-saved svg.lucide { fill: currentColor; }
+
+/* ===== Missions ===== */
+.mission-stat svg.lucide { color: currentColor !important; }
+.mission-band { background: color-mix(in srgb, var(--mc) 16%, transparent); color: var(--mc); }
+.mission-band svg.lucide { color: var(--mc) !important; }
+.mission-icon { background: color-mix(in srgb, var(--mc) 16%, transparent); }
+.mission-card { transition: border-color 0.2s ease; }
+.mission-card:hover { border-color: color-mix(in srgb, var(--mc) 45%, transparent) !important; }
+.mission-reward.reduction { color: #C084FC; }
+.mission-reward.points { color: var(--gasra-accent); }
+.mission-reward.cash { color: #34D399; }
+.mission-reward svg.lucide { color: currentColor !important; }
+
+/* ===== Connexion ===== */
+.login-gradient-text { background: linear-gradient(90deg, #2fddcb, #0DCCF2 40%, #5E47D1 75%, #DB57C5); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.login-demo { transition: background 0.2s ease, border-color 0.2s ease; }
+.login-demo:hover { background: var(--gasra-surface-subtle); border-color: color-mix(in srgb, var(--gasra-accent) 35%, transparent) !important; }
+
+/* ===== Abonnements ===== */
+.plan-icon { background: color-mix(in srgb, var(--pc) 16%, transparent); }
+.plan-icon svg.lucide { color: var(--pc) !important; }
+.plan-card.is-active { border-color: color-mix(in srgb, var(--gasra-accent) 45%, transparent); background: color-mix(in srgb, var(--gasra-accent) 7%, var(--gasra-surface)); }
+.plan-check { color: var(--gasra-accent) !important; }
+
+/* ===== Profil : réseaux / bienvenue ===== */
+.social-icon { background: color-mix(in srgb, var(--sc) 15%, transparent); }
+.social-icon svg.lucide { color: var(--sc) !important; }
+.welcome-step { transition: background 0.2s ease, border-color 0.2s ease; }
+.welcome-step:hover { background: var(--gasra-surface-subtle); border-color: color-mix(in srgb, var(--gasra-accent) 30%, transparent) !important; }
+.welcome-step.is-done svg.lucide { color: #34D399 !important; }
+
+/* =====================================================================
+   FOND ANIMÉ "MESH" — dégradé de la marque (remplace le mirage WebGL)
+   ===================================================================== */
+.gasra-mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+  /* Intensité des taches de couleur (sombre) */
+  --mesh-a: 55%;
+  --mesh-base: #020D1C;
+  --mesh-cyan: color-mix(in srgb, #0DCCF2 var(--mesh-a), transparent);
+  --mesh-violet: color-mix(in srgb, #5E47D1 var(--mesh-a), transparent);
+  --mesh-rose: color-mix(in srgb, #DB57C5 var(--mesh-a), transparent);
+  background-color: var(--mesh-base);
+  background-image:
+    radial-gradient(at 40% 20%, var(--mesh-violet) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, var(--mesh-rose) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, var(--mesh-cyan) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, var(--mesh-violet) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, var(--mesh-cyan) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, var(--mesh-rose) 0px, transparent 50%);
+  /* taille 200 % pour que le déplacement des positions soit réellement visible */
+  background-size: 200% 200%;
+  background-position: 0% 0%, 100% 0%, 0% 100%, 100% 50%, 0% 100%, 100% 100%; /* fixe = 1re image de gasraMeshMove ; animation désactivée */
+  transition: background-color 0.7s ease;
+}
+/* Mode clair "Nacre" : même mesh, base gris perle et couleurs plus légères */
+:root:not(.dark) .gasra-mesh-bg {
+  --mesh-a: 30%;
+  --mesh-base: #ECEDF3;
+}
+@keyframes gasraMeshMove {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 50%, 0% 100%, 100% 100%;
+  }
+  50% {
+    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 50%, 100% 0%, 0% 0%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gasra-mesh-bg { animation: none; }
+}

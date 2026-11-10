@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="gasraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E2732" />
+      <stop offset="100%" stop-color="#07151B" />
+    </linearGradient>
+    <linearGradient id="citronGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2FF7A" />
+      <stop offset="100%" stop-color="#E4FF3C" />
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect x="24" y="24" width="464" height="464" rx="112" ry="112" fill="url(#gasraBg)" stroke="#1F424E" stroke-width="8"/>
+  
+  <!-- Monogram G stylized with dynamic local pulse dot -->
+  <path d="M 350 170 C 322 135 285 120 240 120 C 165 120 115 178 115 256 C 115 334 165 392 240 392 C 315 392 355 342 360 286 L 244 286 L 244 232 L 410 232 C 414 260 415 280 415 300 C 415 375 352 444 240 444 C 135 444 56 362 56 256 C 56 150 135 68 240 68 C 304 68 360 94 400 144 Z" 
+        fill="url(#citronGlow)" />
+  <!-- Radiant dot (representing local pulse / souk / houma) -->
+  <circle cx="345" cy="188" r="22" fill="#3D5AFE" />
+</svg>
